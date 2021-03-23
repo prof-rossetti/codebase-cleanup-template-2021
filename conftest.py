@@ -15,15 +15,33 @@
 #
 
 import pytest
-from app.robo import fetch_data
+from app.robo import RoboAdvisor
 
 @pytest.fixture(scope="module")
-def parsed_googl_response():
-    return fetch_data("GOOGL")
+def googl_advisor():
+    return RoboAdvisor(symbol="AMZN") # FOR TESTING REAL REQUESTS (REMEMBER TO SKIP CI)
 
 @pytest.fixture(scope="module")
-def parsed_oops_response():
-    return fetch_data("OOPS")
+def oops_advisor():
+    return RoboAdvisor(symbol="OOPS") # FOR TESTING REAL REQUESTS (REMEMBER TO SKIP CI)
+
+@pytest.fixture(scope="module")
+def mock_msft_advisor():
+    advisor = RoboAdvisor(symbol="MSFT")
+    advisor.parsed_response = mock_msft_response # OVERRIDE WITH MOCK DATA
+    return advisor
+
+@pytest.fixture(scope="module")
+def mock_amzn_advisor():
+    advisor = RoboAdvisor(symbol="AMZN")
+    advisor.parsed_response = mock_amzn_response # OVERRIDE WITH MOCK DATA
+    return advisor
+
+@pytest.fixture(scope="module")
+def mock_oops_advisor():
+    advisor = RoboAdvisor(symbol="OOPS")
+    advisor.parsed_response = mock_error_response # OVERRIDE WITH MOCK DATA
+    return advisor
 
 #
 # MOCK DATA
